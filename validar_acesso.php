@@ -22,7 +22,12 @@
 
 		$dados_usuario = mysqli_fetch_array($resultado_id);
 
-		var_dump($dados_usuario);
+		if(isset($dados_usuario['usuario'])){
+			echo 'Usuário logado com sucesso';
+		}else{
+			header('Location: index.php?erro=1'); 
+		}
+		
 	}else{
 		echo 'Usuário NÃO foi logado!';
 	}
