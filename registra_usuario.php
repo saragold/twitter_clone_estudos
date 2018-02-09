@@ -6,7 +6,7 @@
 	
 	$email = $_POST['email'];
 	
-	$senha = $_POST['senha'];
+	$senha = md5($_POST['senha']);
 
 	$objeto_db = new db();
 
