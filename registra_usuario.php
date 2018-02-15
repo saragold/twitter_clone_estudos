@@ -13,6 +13,9 @@
 	//A variavel recebe o retorno da função
 	$link = $objeto_db -> conecta_mysql();
 
+	$usuario_existe = false;
+	$email_existe = false;
+
 //Verificando se o usuário já existe
 	$sql = "select * from usuarios where usuario = '$usuario' ";
 
@@ -22,10 +25,7 @@
 
 		if(isset($dados_usuarios['usuario'])){
 
-			echo 'Usuário existente!';
-		}else{
-
-			echo 'Usuário pode ser cadastrado!';
+			$usuario_existe = true;
 		}
 	}else{
 		echo 'Erro ao tentar localizar registro';
@@ -40,16 +40,29 @@
 
 		if(isset($dados_usuarios['email'])){
 
-			echo 'E-mail existente!';
-		}else{
-
-			echo 'E-mail pode ser cadastrado!';
+			$email_existe = true;
 		}
 	}else{
 		echo 'Erro ao tentar localizar registro';
 	}
 
-	die();
+	if($usuario_existe || $email_existe){
+
+		$retorno_get = '';
+
+		if($usuario_existe){
+
+			$retorno_get.="erro_usuario=1$";
+		}
+
+		if($email_existe){
+
+			$retorno_get.="erro_email=1$";
+		}
+
+		header('Location: inscrevase.php?'.$retorno_get);
+		die();
+	}
 
 	//Query de insert
 	$sql = "insert into usuarios(usuario, email, senha) values ('$usuario', '$email', '$senha')";
